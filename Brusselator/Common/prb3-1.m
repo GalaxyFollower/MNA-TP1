@@ -7,13 +7,15 @@ function E = eigBrusselatorJ4 (m,L,delta1,delta2,alpha,beta)
         while (n > 2)
 		n
 		A(1:n,1:n);
-                [Q,R]=calculateQR(A);
+                [Q,R]=calculateQR1(A);
+		A = R*Q;
 		if ( abs(A(n,n-1)) <= tol*(abs(A(n-1,n-1))+abs(A(n,n))) )  %single shift
-			E(i) = A(n,n); 
-			n = n-1; i=i+1;		
+			E(i) = A(n,n) 
+			i=i+1; n = n-1;		
 		elseif ( abs(A(n,n-1)) <= tol*(abs(A(n-1,n-1))+abs(A(n,n))) )  %double shift
 			Eaux = eig2p2 (A(n-1:n,n-1:n));
-                        E(i) = Eaux(1); E(i+1) = Eaux(2);
+                        E(i) = Eaux(1)
+			 E(i+1) = Eaux(2)
                         i=i+2;n = n - 2;
 		endif	
         endwhile
@@ -27,22 +29,23 @@ endfunction
 
 
 
-function H = hessenberg(A)
+function H = hessenberg(A) %IMPLEMENTAR
 	H = hess(A);
 endfunction
 
 
-function [Q,R] = calculateQR (A)
+function [Q,R] = calculateQR1 (A)
 % NO FUNCIONA
-	n = (size(A))(1);
+	n = (size(A))(1)
         for k=1:n
-                Q(:,k) = A(:,k);
+                Q(:,k) = A(:,k)
                 for i=1:k-1
-                        Q(:,k) = Q(:,k) - A(:,k)*(transpose(Q(:,i)))*Q(:,i);
+			aux = transpose(A(:,k))*Q(:,i)
+                        Q(:,k) = Q(:,k) - aux*Q(:,i)
                 end
-                Q(:,k) = Q(:,k)/norm(Q(:,k));
+                Q(:,k) = Q(:,k)/norm(Q(:,k))
         endfor
-        R = transpose(Q)*A;
+        R = transpose(Q)*A
 endfunction
 
 
