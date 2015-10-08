@@ -24,7 +24,7 @@ function A = brusselatorJMatrix (m,L,delta1,delta2,alpha,beta)
 	M22 = tau2 * T - (alpha^2) * I;
 
 	A = [ M11 , M12 ; M21 , M22 ];
-	t = time() - ti
+	t = time() - ti;
 
 endfunction
 
