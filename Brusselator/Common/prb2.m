@@ -12,4 +12,4 @@ function E = eigBrusselatorJ (m,L,delta1,delta2,alpha,beta)
        		d = roots(coeff);
        		E(j) = d(1);  E(m+j) = d(2); % eigenvalues of A
     	end;
-endfunction
+end

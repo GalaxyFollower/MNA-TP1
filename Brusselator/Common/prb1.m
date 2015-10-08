@@ -26,7 +26,7 @@ function A = brusselatorJMatrix (m,L,delta1,delta2,alpha,beta)
 	A = [ M11 , M12 ; M21 , M22 ];
 	t = time() - ti;
 
-endfunction
+end
 
 
 function T = tridiag (dim,a,b,c)
@@ -38,10 +38,10 @@ function T = tridiag (dim,a,b,c)
 		if ( k < dim )
 			T(k,k+1)=c;
 			T(k+1,k)=a;
-		endif
+		end
 	end
 
-endfunction
+end
 
 
 % For ex1 Parameters: N=200, L=0.51302, DELT1=0.008, DELT2=0.004, ALPHA=2, BETA=5.45

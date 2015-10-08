@@ -1,5 +1,4 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        function E = eigBrusselatorJ4 (m,L,delta1,delta2,alpha,beta)
-	tol = 1E-10;
+function E = eigBrusselatorJ4 (m,L,delta1,delta2,alpha,beta)
 	A = brusselatorJMatrix(m,L,delta1,delta2,alpha,beta);
 	A = hessenberg(A); % A(hess) = Q'*A*Q
 	n = (size(A))(1);
@@ -16,21 +15,21 @@
                         E(i) = Eaux(1);
 			 E(i+1) = Eaux(2);
                         i=i+2;n = n - 2;
-		endif	
-        endwhile
+		end
+        end
 	if (n==2)
 		Eaux = eig2p2 (A);
                 E(i) = Eaux(1); E(i+1) = Eaux(2);
         elseif (n==1)
 		E(i) = A(1,1);
-	endif
-endfunction
+	end
+end
 
 
 
 function H = hessenberg(A) %IMPLEMENTAR
 	H = hess(A);
-endfunction
+end
 
 
 function [Q,R] = calculateQR1 (A)
@@ -43,9 +42,9 @@ function [Q,R] = calculateQR1 (A)
                         Q(:,k) = Q(:,k) - aux*Q(:,i)
                 end
                 Q(:,k) = Q(:,k)/norm(Q(:,k));
-        endfor
+        end
         R = transpose(Q)*A;
-endfunction
+end
 
 
 
@@ -53,4 +52,4 @@ endfunction
 function E = eig2p2 (A)
         p = [ 1 , -A(1,1)-A(2,2) , A(1,1)*A(2,2) - A(1,2)*A(2,1) ];
         E = roots(p);
-endfunction
+end
