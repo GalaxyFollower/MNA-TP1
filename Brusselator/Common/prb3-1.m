@@ -1,21 +1,20 @@
-function E = eigBrusselatorJ4 (m,L,delta1,delta2,alpha,beta)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        function E = eigBrusselatorJ4 (m,L,delta1,delta2,alpha,beta)
 	tol = 1E-10;
 	A = brusselatorJMatrix(m,L,delta1,delta2,alpha,beta);
 	A = hessenberg(A); % A(hess) = Q'*A*Q
 	n = (size(A))(1);
 	i=1; tol = 1E-10;
         while (n > 2)
-		n
 		A(1:n,1:n);
                 [Q,R]=calculateQR1(A);
 		A = R*Q;
-		if ( abs(A(n,n-1)) <= tol*(abs(A(n-1,n-1))+abs(A(n,n))) )  %single shift
-			E(i) = A(n,n) 
+		if ( abs(A(n,n-1)) > tol*(abs(A(n-1,n-1))+abs(A(n,n))) )  %single shift
+			E(i) = A(n,n);
 			i=i+1; n = n-1;		
-		elseif ( abs(A(n,n-1)) <= tol*(abs(A(n-1,n-1))+abs(A(n,n))) )  %double shift
+		elseif ( abs(A(n,n-1)) > tol*(abs(A(n-1,n-1))+abs(A(n,n))) )  %double shift
 			Eaux = eig2p2 (A(n-1:n,n-1:n));
-                        E(i) = Eaux(1)
-			 E(i+1) = Eaux(2)
+                        E(i) = Eaux(1);
+			 E(i+1) = Eaux(2);
                         i=i+2;n = n - 2;
 		endif	
         endwhile
@@ -36,16 +35,16 @@ endfunction
 
 function [Q,R] = calculateQR1 (A)
 % NO FUNCIONA
-	n = (size(A))(1)
+	n = (size(A))(1);
         for k=1:n
-                Q(:,k) = A(:,k)
+                Q(:,k) = A(:,k);
                 for i=1:k-1
-			aux = transpose(A(:,k))*Q(:,i)
+			aux = transpose(A(:,k))*Q(:,i);
                         Q(:,k) = Q(:,k) - aux*Q(:,i)
                 end
-                Q(:,k) = Q(:,k)/norm(Q(:,k))
+                Q(:,k) = Q(:,k)/norm(Q(:,k));
         endfor
-        R = transpose(Q)*A
+        R = transpose(Q)*A;
 endfunction
 
 
