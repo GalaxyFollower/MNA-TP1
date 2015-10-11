@@ -33,7 +33,9 @@ function E = eigNumeric (m,L,delta1,delta2,alpha,bet,tol)
 	end
 end
 
+
 function [Q,R] = calculateHQR (A)
+% http://www.cs.cornell.edu/~bindel/class/cs6210-f09/lec18.pdf
 	[m,n] = size(A);
 	Q = eye(m);
 	R = A;
