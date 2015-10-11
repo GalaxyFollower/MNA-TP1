@@ -11,68 +11,69 @@ function E = eigNumeric (m,L,delta1,delta2,alpha,bet,tol)
 	A = hessenberg(A);
 	n = length(A);
 	i=1;
-    while (n > 2)
-        [Q,R]=calculateHQR(A);
+	while (n > 2)
+		[Q,R]=calculateHQR(A);
 		A = R*Q;
 		if ( abs(A(n,n-1)) < tol*(abs(A(n-1,n-1))+abs(A(n,n))) )  %single shift
 			E(i) = A(n,n);
 			i=i+1; n = n-1;	
-            A = A(1:n,1:n);	
+			A = A(1:n,1:n);	
 		elseif ( abs(A(n-1,n-2)) < tol*(abs(A(n-1,n-1))+abs(A(n-2,n-2))) )  %double shift
 			Eaux = eig (A(n-1:n,n-1:n));
-            E(i) = Eaux(1); E(i+1) = Eaux(2);
-            i=i+2;n = n - 2;
-            A = A(1:n,1:n);
+			E(i) = Eaux(1); E(i+1) = Eaux(2);
+			i=i+2;n = n - 2;
+			A = A(1:n,1:n);
 		end
-    end
+	end
 	if (n==2)
 		Eaux = eig2p2 (A);
-        E(i) = Eaux(1); E(i+1) = Eaux(2);
-    elseif (n==1)
+		E(i) = Eaux(1); E(i+1) = Eaux(2);
+	elseif (n==1)
 		E(i) = A(1,1);
 	end
 end
 
 function [Q,R] = calculateHQR (A)
 	[m, n] = size(A);
-    R = A;
-    for k = 1:n,
-      x = R(k:m,k);
-      e = eye(length(x),1);
-      Q = sign(x(1))*norm(x)*e + x;
-      Q = Q. /norm(Q);
-      R(k:m, k:n) = R(k:m, k:n) -2*Q*Q’*R(k:m, k:n);
-      Q(k:m,k) = Q;
+	R = A;
+	for k = 1:n,
+		x = R(k:m,k);
+		e = eye(length(x),1);
+		Q = sign(x(1))*norm(x)*e + x;
+		Q = Q/norm(Q);
+		R(k:m, k:n) = R(k:m, k:n) -2*Q*Q’*R(k:m, k:n);
+		Q(k:m,k) = Q;
+	end
 end
 
 function H = hessenberg(A)
 	[m,n] = size(A); 
-    L = zeros(m,n);
-    H = A;
-    for j = 1:m-2
-        x = H(j+1:m,j);
-        x(1) = x(1) + sign(x(1)) * norm(x);
-        n = norm(x);
-        if n > 0
-            u = x/norm(x);
-            H(j+1:m,j:m) = H(j+1:m,j:m) - 2*u*( u'*H(j+1:m,j:m) );
-            H(1:m,j+1:m) = H(1:m,j+1:m) - 2*( H(1:m,j+1:m)*u )*u';
-        else
-            u = x;
-        end
+	L = zeros(m,n);
+	H = A;
+	for j = 1:m-2
+		x = H(j+1:m,j);
+		x(1) = x(1) + sign(x(1)) * norm(x);
+		n = norm(x);
+		if n > 0
+			u = x/norm(x);
+			H(j+1:m,j:m) = H(j+1:m,j:m) - 2*u*( u'*H(j+1:m,j:m) );
+			H(1:m,j+1:m) = H(1:m,j+1:m) - 2*( H(1:m,j+1:m)*u )*u';
+		else
+			u = x;
+		end
         %L(j+1:m,j) = u;
-    end
+        end
 end
 
 
 function [Q,R] = calculateQR (A)
 	% Ya no lo usamos
-	n = (size(A))(1);
-    for k=1:n
-        Q(:,k) = A(:,k);
+	n = length(A);
+	for k=1:n
+		Q(:,k) = A(:,k);
         for i=1:k-1
-			aux = transpose(A(:,k))*Q(:,i);
-            Q(:,k) = Q(:,k) - aux*Q(:,i)
+		aux = transpose(A(:,k))*Q(:,i);
+		Q(:,k) = Q(:,k) - aux*Q(:,i)
         end
         Q(:,k) = Q(:,k)/norm(Q(:,k));
     end
@@ -83,6 +84,6 @@ end
 
 
 function E = eig2p2 (A)
-    p = [ 1 , -A(1,1)-A(2,2) , A(1,1)*A(2,2) - A(1,2)*A(2,1) ];
-    E = roots(p);
+	p = [ 1 , -A(1,1)-A(2,2) , A(1,1)*A(2,2) - A(1,2)*A(2,1) ];
+	E = roots(p);
 end
