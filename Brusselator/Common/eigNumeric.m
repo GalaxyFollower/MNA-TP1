@@ -19,7 +19,7 @@ function E = eigNumeric (m,L,delta1,delta2,alpha,bet,tol)
 			i=i+1; n = n-1;	
 			A = A(1:n,1:n);	
 		elseif ( abs(A(n-1,n-2)) < tol*(abs(A(n-1,n-1))+abs(A(n-2,n-2))) )  %double shift
-			Eaux = eig (A(n-1:n,n-1:n));
+			Eaux = eig2p2 (A(n-1:n,n-1:n));
 			E(i) = Eaux(1); E(i+1) = Eaux(2);
 			i=i+2;n = n - 2;
 			A = A(1:n,1:n);
