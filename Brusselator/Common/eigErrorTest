@@ -1,0 +1,7 @@
+function [med,max] = eigErrorTest (en,ea)
+	en = sort( abs(en) );
+	ea = sort( abs(ea) );
+	ediff = abs(en-ea);
+	med = mean(ediff);
+	max = max (ediff);
+end

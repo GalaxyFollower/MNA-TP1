@@ -1,4 +1,12 @@
 function A = brusselatorJMatrix (m,L,delta1,delta2,alpha,bet)
+%%  PARAMETERS
+%%  ----------
+%%  m: 1/2 order of the matrix
+%%  L: bifurcation parameter
+%%  delta1: diffusion coefficient for x
+%%  delta2: diffusion coefficient for y
+%%  alpha: constant in reaction term for x
+%%  bet: constant in reaction term for y
 	h = 1/(m+1);
 	aux = (h*L)^2;
 	tau1 = delta1 / aux;
@@ -24,5 +32,3 @@ function T = tridiag (dim,a,b,c)
 	end
 end
 
-
-% For ex1 Parameters: N=200, L=0.51302, DELT1=0.008, DELT2=0.004, ALPHA=2, BETA=5.45
