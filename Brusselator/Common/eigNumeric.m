@@ -34,15 +34,20 @@ function E = eigNumeric (m,L,delta1,delta2,alpha,bet,tol)
 end
 
 function [Q,R] = calculateHQR (A)
-	[m, n] = size(A);
-	R = A;
-	for k = 1:n,
-		x = R(k:m,k);
-		e = eye(length(x),1);
-		Q = sign(x(1))*norm(x)*e + x;
-		Q = Q/norm(Q);
-		R(k:m, k:n) = R(k:m, k:n) -2*Q*Q’*R(k:m, k:n);
-		Q(k:m,k) = Q;
+	[m,n] = size(A);
+	Q = eye(m); % Orthogonal transform so far
+	R = A; % Transformed matrix so far
+	for j = 1:n
+		% -- Find H = I-tau*w*w' to put zeros below R(j,j)
+		normx = norm(R(j:end,j));
+		s = -sign(R(j,j));
+		u1 = R(j,j) - s*normx;
+		w = R(j:end,j)/u1;
+		w(1) = 1;
+		tau = -s*u1/normx;
+		% -- R := HR, Q := QH
+		R(j:end,:) = R(j:end,:)-(tau*w)*(w'*R(j:end,:));
+		Q(:,j:end) = Q(:,j:end)-(Q(:,j:end)*w)*(tau*w)';
 	end
 end
 
@@ -56,7 +61,7 @@ function H = hessenberg(A)
 		n = norm(x);
 		if n > 0
 			u = x/norm(x);
-			H(j+1:m,j:m) = H(j+1:m,j:m) - 2*u*( u'*H(j+1:m,j:m) );
+			H(j+1:m,j:m) = H(j+1:m,j:m) - 2*u*(u'*H(j+1:m,j:m));
 			H(1:m,j+1:m) = H(1:m,j+1:m) - 2*( H(1:m,j+1:m)*u )*u';
 		else
 			u = x;
