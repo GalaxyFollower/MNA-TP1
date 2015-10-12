@@ -10,7 +10,6 @@ function E = eigAnalytic (m,L,delta1,delta2,alpha,bet)
 	h = 1/(m+1); 
 	tau1  = delta1/(h*L)^2; 
 	tau2  = delta2/(h*L)^2;
-  E = zeros (2*m); % initialize eigenvalues vector for optimization (each time we add an element, mathlab or octave reallocates the vector) 
     	for k=1:m,
        		eigofT(k) = -2*(1- cos(pi*k*h) );  % eigenvalues of T
     	end
