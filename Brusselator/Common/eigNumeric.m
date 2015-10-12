@@ -46,7 +46,7 @@ function [Q,R] = calculateHQR (A)
 		w = R(j:end,j)/u1;
 		w(1) = 1;
 		tau = -s*u1/normx;
-		R(j:end,:) = R(j:end,:)-(tau*w)*(w'*R(j:end,:));
+		R(j:end,:) = R(j:end,:)-(tau*w)*(transpose(w)*R(j:end,:));
 		Q(:,j:end) = Q(:,j:end)-(Q(:,j:end)*w)*(tau*w)';
 	end
 end
@@ -61,7 +61,7 @@ function H = hessenberg(A)
 		n = norm(x);
 		if n > 0
 			u = x/norm(x);
-			H(j+1:m,j:m) = H(j+1:m,j:m) - 2*u*(u'*H(j+1:m,j:m));
+			H(j+1:m,j:m) = H(j+1:m,j:m) - 2*u*(transpose(u)*H(j+1:m,j:m));
 			H(1:m,j+1:m) = H(1:m,j+1:m) - 2*( H(1:m,j+1:m)*u )*u';
 		else
 			u = x;
